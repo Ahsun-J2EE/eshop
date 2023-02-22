@@ -1,6 +1,10 @@
 import 'package:eshop/screens/auth/signup_screen.dart';
+import 'package:eshop/screens/home_screen.dart';
 import 'package:eshop/utils/color_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart ';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../reusable_widgets/reusable_widget.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -42,9 +46,32 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("EnterPassword", Icons.lock_outline, true, _passwordTextController),
-                const SizedBox(height: 20,),
-                signInSignUpButton(context, true, (){}),
+                reusableTextField("EnterPassword", Icons.lock_outline, true,
+                    _passwordTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                signInSignUpButton(context, true, () {
+                  FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _emailTextController.text,
+                          password: _passwordTextController.text)
+                      .then((value) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ));
+                  }).onError((error, stackTrace) {
+                    Fluttertoast.showToast(
+                      msg: "Wrong Email or Password!",
+                      backgroundColor: Colors.red,
+                      fontSize: 15,
+                      textColor: Colors.white,
+                    );
+                    print("Error: ${error.toString()}");
+                  });
+                }),
                 signUpOption()
               ],
             ),
@@ -54,18 +81,23 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Row signUpOption(){
+  Row signUpOption() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have an account?",
-        style: TextStyle(color: Colors.white70),),
+        const Text(
+          "Don't have an account?",
+          style: TextStyle(color: Colors.white70),
+        ),
         GestureDetector(
-          onTap: (){
-            Navigator.push(context, 
-            MaterialPageRoute(builder: (context) => const SignUpScreen()));
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SignUpScreen()));
           },
-          child: const Text(" Sign Up", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+          child: const Text(
+            " Sign Up",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );

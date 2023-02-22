@@ -1,6 +1,6 @@
 import 'package:eshop/reusable_widgets/reusable_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/color_utils.dart';
@@ -67,14 +67,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       email: _emailTextController.text,
                       password: _passwordTextController.text)
                   .then((value) {
-                    print("Created new account");
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()));
-                      }).onError((error, stackTrace){
-                        print("Error: ${error.toString()}");
-                      });
+                //print("Created new account");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
+              }).onError((error, stackTrace) {
+                print("Error: ${error.toString()}");
+              });
             })
           ]),
         )),
