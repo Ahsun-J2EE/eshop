@@ -1,5 +1,7 @@
+import 'package:eshop/screens/auth/signup_screen.dart';
 import 'package:eshop/utils/color_utils.dart';
 import 'package:flutter/material.dart ';
+import '../../reusable_widgets/reusable_widget.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -9,10 +11,15 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
           hexStringToColor("CB2B93"),
@@ -27,6 +34,18 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               children: <Widget>[
                 logoWidget("assets/images/eshop_logo.png"),
+                const SizedBox(
+                  height: 30,
+                ),
+                reusableTextField("Enter UserName", Icons.person_outline, false,
+                    _emailTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("EnterPassword", Icons.lock_outline, true, _passwordTextController),
+                const SizedBox(height: 20,),
+                signInSignUpButton(context, true, (){}),
+                signUpOption()
               ],
             ),
           ),
@@ -35,13 +54,20 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Image logoWidget(String imageName) {
-    return Image.asset(
-      imageName,
-      fit: BoxFit.fitWidth,
-      width: 240,
-      height: 240,
-      color: Colors.white,
+  Row signUpOption(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("Don't have an account?",
+        style: TextStyle(color: Colors.white70),),
+        GestureDetector(
+          onTap: (){
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => const SignUpScreen()));
+          },
+          child: const Text(" Sign Up", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        ),
+      ],
     );
   }
 }
