@@ -1,10 +1,7 @@
 import 'package:eshop/screens/auth/signup_screen.dart';
 import 'package:eshop/screens/home_screen.dart';
 import 'package:eshop/utils/color_utils.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart ';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../../reusable_widgets/reusable_widget.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -52,25 +49,31 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 20,
                 ),
                 signInSignUpButton(context, true, () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
-                      .then((value) {
+                  // if(_emailTextController.text.isEmpty){
+                  //   Fluttertoast.showToast(msg: "Enter Your Email Address");
+                  // }else if(_passwordTextController.text.isEmpty){
+                  //   Fluttertoast.showToast(msg: "Enter Your Password");
+                  // }else{
+                  //   FirebaseAuth.instance
+                  //     .signInWithEmailAndPassword(
+                  //         email: _emailTextController.text,
+                  //         password: _passwordTextController.text)
+                  //     .then((value) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const HomeScreen(),
                         ));
-                  }).onError((error, stackTrace) {
-                    Fluttertoast.showToast(
-                      msg: "Wrong Email or Password!",
-                      backgroundColor: Colors.red,
-                      fontSize: 15,
-                      textColor: Colors.white,
-                    );
-                    print("Error: ${error.toString()}");
-                  });
+                  // }).onError((error, stackTrace) {
+                  //   Fluttertoast.showToast(
+                  //     msg: "Wrong Email or Password!",
+                  //     backgroundColor: Colors.red,
+                  //     fontSize: 15,
+                  //     textColor: Colors.white,
+                  //   );
+                  //   //print("Error: ${error.toString()}");
+                  // });
+                  // }
                 }),
                 signUpOption()
               ],
